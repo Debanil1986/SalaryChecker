@@ -1,0 +1,30 @@
+<main>
+  <ng-container *ngIf="salary && salary.length > 0; else elseTemplate">
+
+      <swiper-container >
+        <swiper-slide class="ion-justify-content-center swiper-slide" *ngFor="let sal of salary">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Week {{sal.week_number}}</ion-card-title>
+              <ion-card-subtitle>Date {{sal.date}}</ion-card-subtitle>
+            </ion-card-header>
+          <ion-card-content>
+            <div>Hours Worked: {{sal.total_hours}}</div>
+
+          </ion-card-content>
+        </ion-card>
+        </swiper-slide>
+      </swiper-container>
+
+
+
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+    </ng-template>
+
+
+
+</main>
