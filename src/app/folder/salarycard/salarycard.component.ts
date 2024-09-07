@@ -13,6 +13,7 @@ register();
 })
 export class SalarycardComponent  implements OnInit {
   swiperModules = [IonicSlides];
+  currentYear = new Date().getFullYear();
   @Input() salary:Salary[] = [] as Salary[];
   constructor() { }
   ngOnInit() {

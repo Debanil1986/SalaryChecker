@@ -3,13 +3,30 @@
 
       <swiper-container >
         <swiper-slide class="ion-justify-content-center swiper-slide" *ngFor="let sal of salary">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>Week {{sal.week_number}}</ion-card-title>
-              <ion-card-subtitle>Date {{sal.date}}</ion-card-subtitle>
+          <ion-card class="ion-card">
+            <ion-card-header class="ion-card-header">
+              <ion-card-title>Week {{sal.week_number}} of {{sal.date | date:'yyyy'}}</ion-card-title>
+              <ion-card-subtitle>Date {{sal.date | date:'mediumDate'}}</ion-card-subtitle>
             </ion-card-header>
-          <ion-card-content>
-            <div>Hours Worked: {{sal.total_hours}}</div>
+          <ion-card-content class="ion-card-content">
+            <ion-row class="ion-justify-content-center">
+             <ion-col size="6">
+              Started: {{sal.from}}
+             </ion-col>
+             <ion-col size="6">
+              Ended: {{sal.to}}
+             </ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-center">
+             <ion-col size="12">
+              Hours Worked: {{sal.total_hours}}
+             </ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-center">
+             <ion-col size="12">
+              Money: € {{sal.price}}
+             </ion-col>
+            </ion-row>
 
           </ion-card-content>
         </ion-card>
