@@ -1,8 +1,48 @@
-.swiper-slide{
+.swiper-slide {
   display: flex;
+  justify-content: center; /* Center content */
+  align-items: center; /* Vertically center content */
+  padding: 20px; /* Add spacing around cards */
 }
 
-.ion-card{
+.ion-card {
   width: 412px;
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  overflow: hidden; /* Ensure content doesn’t overflow */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effects */
+  background: linear-gradient(135deg, #f3e7e9, #cadefc); /* Add gradient background */
 }
+
+.ion-card:hover {
+  transform: scale(1.05); /* Slight scaling effect on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.ion-card-header {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #f87979; /* Enhance font size and color */
+  margin-bottom: 10px;
+  text-align: center; /* Center the card title */
+}
+ion-card-title{
+  color: #f87979; 
+}
+
+.ion-card-content {
+  font-size: 2em;
+  color: #666; /* Lighter text color */
+  padding: 15px;
+  line-height: 1.6; /* Improve readability */
+  text-align: justify; /* Align text for better flow */
+}
+
+.ion-card-footer {
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05); /* Subtle footer background */
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 
