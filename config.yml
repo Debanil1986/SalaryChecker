@@ -1,0 +1,52 @@
+version: 2.1
+
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:18-browsers
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:18-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm ci
+      - run:
+          name: Build Ionic App for Web
+          command: npm run build
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - www
+
+  deploy:
+    docker:
+      - image: circleci/node:18-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy to FTP (or other deployment)
+          command: |
+            apt-get update -y && apt-get install -y lftp
+            lftp -u $FTP_USER,$FTP_PASSWORD -e "mirror -R ./www /path/on/server; quit" $FTP_HOST
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
