@@ -16,7 +16,7 @@ jobs:
             - v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: npm ci --legacy-peer-deps
       - run:
           name: Build Ionic App for Web
           command: npm run build
