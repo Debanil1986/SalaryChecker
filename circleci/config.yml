@@ -34,7 +34,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:18.20.4-browsers
+      - image: cimg/node:18.20.4-browsers
     steps:
       - checkout
       - attach_workspace:
