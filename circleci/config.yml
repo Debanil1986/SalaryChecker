@@ -3,12 +3,12 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: circleci/node:18-browsers
+      - image: circleci/node:18.20.4-browsers
 
 jobs:
   build:
     docker:
-      - image: cimg/node:18.17.1-browsers
+      - image: cimg/node:18.20.4-browsers
     steps:
       - checkout
       - restore_cache:
@@ -17,6 +17,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm ci --legacy-peer-deps
+      - run:
+          name: Install Angular
+          command: npm install -g @angular/cli
       - run:
           name: Build Ionic App for Web
           command: npm run build
