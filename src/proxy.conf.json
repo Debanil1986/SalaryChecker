@@ -1,0 +1,8 @@
+{
+  "/sheet": {
+    "target": "https://script.google.com/macros/s/AKfycbzM8wnz17kIPd3yHHO0fgzuVaueOUKYAINQUktDbBgi69AJ20aKAwtKhID5N4Ej7HtJ8A/exec",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
