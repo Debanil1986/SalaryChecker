@@ -8,6 +8,7 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 
 import { FolderPage } from './folder.page';
 import { SalarycardComponent } from './salarycard/salarycard.component';
+import { ProgressShowComponent } from './progress-show/progress-show.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,11 @@ import { SalarycardComponent } from './salarycard/salarycard.component';
     IonicModule,
     FolderPageRoutingModule
   ],
-  declarations: [FolderPage,SalarycardComponent],
+  declarations: [
+    FolderPage,
+    SalarycardComponent,
+    ProgressShowComponent
+  ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class FolderPageModule {}

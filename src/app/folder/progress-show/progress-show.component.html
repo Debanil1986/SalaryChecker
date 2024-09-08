@@ -1,0 +1,31 @@
+<main>
+    <ng-container *ngFor="let oneprogress of progress">
+      <ion-row size="12">
+        <ion-col size="4" class="ion-month">
+          <h2>{{oneprogress.month}}</h2>
+        </ion-col>
+        <ion-col size="4">
+          <h3>Hours: {{oneprogress.totalHours}}</h3>
+        </ion-col>
+        <ion-col size="4">
+          <h3>Total: € {{oneprogress.totalPrice | number : '1.2-2'}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-card *ngFor="let data of groupedByMonth[oneprogress.month];let i=index" >
+
+        <ion-card-content>
+          <ion-row>
+            <ion-col size="3">{{data?.date | date:'mediumDate' }}</ion-col>
+            <ion-col size="3">{{data.price}}</ion-col>
+            <ion-col size="3">{{data.total_hours}}</ion-col>
+            <ion-col size="3">
+              <ion-toggle (ionChange)="toggleChange($event,i)" [checked]="data.status !== ''">{{data.status ? "Got money": "Not Got Money"}}</ion-toggle>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+
+    </ng-container>
+
+
+</main>
