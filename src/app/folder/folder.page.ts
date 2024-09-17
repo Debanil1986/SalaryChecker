@@ -34,6 +34,7 @@ export class FolderPage implements OnInit,AfterViewInit,OnDestroy {
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    console.log('this.folder : ', this.folder )
 
   }
 

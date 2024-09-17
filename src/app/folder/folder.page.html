@@ -14,14 +14,22 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-   <ng-container *ngIf="folder === 'weeksalary'">
-    <app-salarycard [salary] = "salaryData"></app-salarycard>
-   </ng-container>
-  </div>
-  <div id="container-normal">
-      <ng-container *ngIf="folder === 'progress'">
-      <app-progress-show (refreshData)="refreshData($event)" [salary] = "salaryData"></app-progress-show>
-     </ng-container>
-  </div>
+  <ng-container *ngIf="folder === 'weeksalary'">
+    <div id="container">
+      <app-salarycard [salary]="salaryData"></app-salarycard>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="folder === 'progress'">
+    <div id="container-normal">
+      <app-progress-show
+        (refreshData)="refreshData($event)"
+        [salary]="salaryData"
+      ></app-progress-show>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="folder === 'mistake'">
+    <div id="container-normal">
+      <app-mistake-card [salary]="salaryData"></app-mistake-card>
+    </div>
+  </ng-container>
 </ion-content>

@@ -51,7 +51,7 @@ export class ProgressShowComponent  implements OnChanges,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.putSheetsSub.unsubscribe();
+    this.putSheetsSub?.unsubscribe();
   }
 
 

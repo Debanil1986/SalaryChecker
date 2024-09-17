@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+.graph {
+  font-family: Anton;
+  padding: 50px;
+}
+
+.category1 {
+  margin-bottom: 55px;
+}
+
+.category1 .rectangle {
+  background: #344F75;
+}
+
+.category1 h3, .category1 span {
+  color: #344F75;
+}
+
+.category2 .rectangle {
+  background: #84CAE0;
+}
+
+.category2 h3, .category2 span {
+  color: #84CAE0;
+}
+
+.rectangle {
+  float: left;
+  margin-right: 10px;
+  height: 65px;
+  width: 0;
+  transition: width 2s ease-in-out;
+}
+
+.bar h3 {
+  font-size: 40px;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+.bar:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+.counter {
+  float: left;
+  font-size: 40px;
+  top: 10px;
+}
+
+.grow .category1 .rectangle {
+  width: 84%;
+}
+
+.grow .category2 .rectangle {
+  width: 68%;
+}

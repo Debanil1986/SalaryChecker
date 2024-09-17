@@ -9,6 +9,7 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 import { FolderPage } from './folder.page';
 import { SalarycardComponent } from './salarycard/salarycard.component';
 import { ProgressShowComponent } from './progress-show/progress-show.component';
+import { MistakeCardComponent } from './mistake-card/mistake-card.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { ProgressShowComponent } from './progress-show/progress-show.component';
   declarations: [
     FolderPage,
     SalarycardComponent,
-    ProgressShowComponent
+    ProgressShowComponent,
+    MistakeCardComponent
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
