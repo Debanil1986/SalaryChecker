@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Datum, routinetimeSlots, Schedule, SubjectAbbr } from 'src/models/salary.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { BodySendRoutine, Datum, routinetimeSlots, Schedule, SubjectAbbr } from 'src/models/salary.model';
 import { AlertController, IonicSlides } from '@ionic/angular';
 import type { AlertInput } from '@ionic/core';
 import { register } from 'swiper/element/bundle';
-import { Observable, of } from 'rxjs';
 import { getSubjectAbbr } from 'src/tools/tools';
+import { KeepAwake } from '@capacitor-community/keep-awake';
+import { Capacitor } from '@capacitor/core';
 
 register();
 
@@ -16,6 +17,7 @@ register();
 })
 export class SalarycardComponent implements OnInit,OnChanges  {
   @Input() schedule: Datum = {} as Datum ;
+  @Output() progressRoutine: EventEmitter<any> = new EventEmitter<any>();
 
   timeSlots:routinetimeSlots[] = []
   displayTime ='00:00:00';
@@ -55,6 +57,13 @@ export class SalarycardComponent implements OnInit,OnChanges  {
   startTimer() {
     if (!this.running) {
       this.running = true;
+      if (Capacitor.getPlatform() === 'android') {
+        // To keep the screen awake
+        KeepAwake.keepAwake()
+            .then(() => console.log('Screen will not dim or lock on Android'))
+            .catch((error:any) => console.error('Error preventing sleep:', error));
+
+      }
       this.startTime = Date.now() - this.elapsedTime;
       this.timerInterval = setInterval(() => {
         this.elapsedTime = Date.now() - this.startTime;
@@ -82,7 +91,23 @@ export class SalarycardComponent implements OnInit,OnChanges  {
     this.displayTime = '00:00:00';
   }
 
+  convertToSeconds(timeString:string) :number{
+    const timeParts = timeString.split(':'); // Split the string by ':'
+    const hours = parseInt(timeParts[0], 10); // Get hours
+    const minutes = parseInt(timeParts[1], 10); // Get minutes
+    const seconds = parseInt(timeParts[2], 10); // Get seconds
+
+    // Calculate total seconds
+    return (hours * 3600) + (minutes * 60) + seconds;
+}
+
   async saveTime(time:string) {
+    if(Capacitor.getPlatform() === 'android'){
+       // To allow the screen to dim or lock again
+       KeepAwake.allowSleep()
+       .then(() => console.log('Screen can dim or lock again on Android'))
+       .catch((error:any) => console.error('Error allowing sleep:', error));
+    }
 
 
   let alertInput: AlertInput[] = [];
@@ -106,11 +131,11 @@ export class SalarycardComponent implements OnInit,OnChanges  {
         {
           text: 'OK',
           handler: (data:any) => {
-            const bodyForSavingProgress = {
-              timeTaken: time,
+            const bodyForSavingProgress: BodySendRoutine = {
+              timeTaken: this.convertToSeconds(time),
               subjectSelected: data
             };
-
+            this.progressRoutine.emit(bodyForSavingProgress);
           }
         }
       ]

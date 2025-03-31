@@ -42,6 +42,12 @@ export class FolderPage implements OnInit,AfterViewInit,OnDestroy {
     })
   }
 
+  sendProgress(data:any){
+    this.sheetservice.addRoutine(data).then(res=>{
+      console.log("Response received",res);
+    })
+  }
+
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;

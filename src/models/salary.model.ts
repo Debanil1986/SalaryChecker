@@ -55,4 +55,10 @@ export enum SubjectAbbr {
 }
 
 
-export type routinetimeSlots= ("thehalfHours" | "the2Hour" | "the1Hour") 
+export type routinetimeSlots= ("thehalfHours" | "the2Hour" | "the1Hour") ;
+
+export interface BodySendRoutine {
+  timeTaken:       number;
+  subjectSelected: string;
+}
+
