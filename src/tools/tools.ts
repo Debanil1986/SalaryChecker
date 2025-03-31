@@ -1,4 +1,4 @@
-import { Salary } from "src/models/salary.model";
+import { General, Salary, SubjectAbbr } from "src/models/salary.model";
 import * as _ from 'lodash'
 
 export function groupSalaryByMonth(salaryData: Salary[]) {
@@ -24,4 +24,11 @@ export function groupSalaryByMonth(salaryData: Salary[]) {
   });
 
   return {result,groupedByMonth};
+}
+
+
+export function getSubjectAbbr(value: string): string {
+  const obj:any= (Object.keys(SubjectAbbr) as string[]).filter((key)=>key == value);
+  const SubjectAbbre:General = {...SubjectAbbr}
+  return SubjectAbbre[obj[0]];
 }

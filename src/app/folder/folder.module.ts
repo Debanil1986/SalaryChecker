@@ -8,21 +8,20 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 
 import { FolderPage } from './folder.page';
 import { SalarycardComponent } from './salarycard/salarycard.component';
-import { ProgressShowComponent } from './progress-show/progress-show.component';
-import { MistakeCardComponent } from './mistake-card/mistake-card.component';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FolderPageRoutingModule
+    FolderPageRoutingModule,
+    IonicStorageModule.forRoot()
   ],
   declarations: [
     FolderPage,
-    SalarycardComponent,
-    ProgressShowComponent,
-    MistakeCardComponent
+    SalarycardComponent
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

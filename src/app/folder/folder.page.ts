@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SheetsService } from '../api/sheets.service';
-import { Refresh, Salary } from 'src/models/salary.model';
 import { Subscription } from 'rxjs';
+import { Datum, Schedule } from 'src/models/salary.model';
 
 @Component({
   selector: 'app-folder',
@@ -15,20 +15,31 @@ export class FolderPage implements OnInit,AfterViewInit,OnDestroy {
 
   public folder!: string;
   private activatedRoute = inject(ActivatedRoute);
-  public salaryData:Salary[]= null as unknown as Salary[];
+
   private sheetSub:Subscription= null as unknown as Subscription;
+  RoutineData: Datum[] = [] as Datum[];
+  currentRoutine: Datum = {} as Datum;
   constructor(
     private sheetservice:SheetsService,
     private changeDetect:ChangeDetectorRef
   ) {}
 
   ngAfterViewInit(): void {
+    this.getRoutine();
 
-    this.getSheets().then((data:Salary[])=>{
-      this.salaryData=data;
-      console.log('this.salaryData: ', this.salaryData);
+    console.log('NoShow')
+  }
+  getRoutine() {
+    this.sheetservice.getRoutine().subscribe(res=>{
+      this.RoutineData = res['data'];
+      const today = new Date();
+      const dayIndex = today.getDay();
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const currentDay = days[dayIndex];
+      console.log("CURRENT DAY",currentDay,"ROUTINE DATA",this.RoutineData);
+      this.currentRoutine = this.RoutineData.find(element=> (element.days).toLowerCase() === currentDay.toLowerCase() ) || ({} as Datum)
 
-    });
+    })
   }
 
 
@@ -38,25 +49,9 @@ export class FolderPage implements OnInit,AfterViewInit,OnDestroy {
 
   }
 
-  getSheets():Promise<Salary[]> {
-    return new Promise((resolve,reject)=>{
-      this.sheetSub =this.sheetservice.getSheets().subscribe((data:any)=>{
-        return resolve(data['data']);
 
-      })
 
-    })
-  }
 
-  refreshData($event: Refresh) {
-    if($event === "refresh"){
-      this.getSheets().then((data:Salary[])=>{
-        this.salaryData=data;
-        console.log('this.salaryData: ', this.salaryData);
-
-      });
-    }
-  }
 
 
 
