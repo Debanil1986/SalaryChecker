@@ -29,6 +29,9 @@ export class SalarycardComponent implements OnInit,OnChanges  {
 
   constructor( private alertCtrl: AlertController, private change:ChangeDetectorRef) {
   }
+
+
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log("Schedule",this.schedule);
     this.timeSlots = Object.keys(this.schedule).filter(key => key !== "days") as routinetimeSlots[];
@@ -44,6 +47,10 @@ export class SalarycardComponent implements OnInit,OnChanges  {
     this.AllSubjects = [...new Set(AllValues)]
 
   }
+
+
+
+
   ngOnInit(): void {
     console.log();
 
@@ -52,6 +59,11 @@ export class SalarycardComponent implements OnInit,OnChanges  {
 
   getSubjectAbbr(subject:string){
     return getSubjectAbbr(subject)
+  }
+
+
+  onSubjectSelect(subjectAdded:string){
+    console.log(subjectAdded);
   }
 
   startTimer() {
