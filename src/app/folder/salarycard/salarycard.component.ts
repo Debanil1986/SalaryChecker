@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BodySendRoutine, Datum, routinetimeSlots, Schedule, SubjectAbbr } from 'src/models/salary.model';
 import { AlertController, IonicSlides } from '@ionic/angular';
 import type { AlertInput } from '@ionic/core';
 import { register } from 'swiper/element/bundle';
-import { getSubjectAbbr } from 'src/tools/tools';
+import { getSubjectAbbr, removeSubjectFromSchedule } from 'src/tools/tools';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import { Capacitor } from '@capacitor/core';
 
@@ -15,7 +15,7 @@ register();
   styleUrls: ['./salarycard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SalarycardComponent implements OnInit,OnChanges  {
+export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
   @Input() schedule: Datum = {} as Datum ;
   @Output() progressRoutine: EventEmitter<any> = new EventEmitter<any>();
 
@@ -26,8 +26,13 @@ export class SalarycardComponent implements OnInit,OnChanges  {
   private elapsedTime = 0;
   private timerInterval!: any;
   AllSubjects:string[] =[] ;
+  currentSubjectSelected: string | null=null;
+  cleanedSchedule: Datum = {} as Datum;
 
   constructor( private alertCtrl: AlertController, private change:ChangeDetectorRef) {
+  }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
 
@@ -63,7 +68,9 @@ export class SalarycardComponent implements OnInit,OnChanges  {
 
 
   onSubjectSelect(subjectAdded:string){
-    console.log(subjectAdded);
+    this.currentSubjectSelected = subjectAdded;
+    this.cleanedSchedule = removeSubjectFromSchedule(this.schedule,subjectAdded);
+
   }
 
   startTimer() {
@@ -121,20 +128,8 @@ export class SalarycardComponent implements OnInit,OnChanges  {
        .catch((error:any) => console.error('Error allowing sleep:', error));
     }
 
-
-  let alertInput: AlertInput[] = [];
-
-  for(let i=0;i<this.AllSubjects.length;i++){
-    alertInput.push( {
-      name:this.AllSubjects[i],
-      label: this.getSubjectAbbr(this.AllSubjects[i]),
-      type:'radio',
-      value: this.AllSubjects[i] })
-  }
-
     const alert = await this.alertCtrl.create({
-      header: 'Select a Subject',
-      inputs: alertInput,
+      header: 'Confirm Schedule',
       buttons: [
         {
           text: 'Cancel',
@@ -145,8 +140,9 @@ export class SalarycardComponent implements OnInit,OnChanges  {
           handler: (data:any) => {
             const bodyForSavingProgress: BodySendRoutine = {
               timeTaken: this.convertToSeconds(time),
-              subjectSelected: data
+              subjectSelected: this.currentSubjectSelected ?? ""
             };
+            this.schedule = JSON.parse(JSON.stringify(this.cleanedSchedule));
             this.progressRoutine.emit(bodyForSavingProgress);
           }
         }

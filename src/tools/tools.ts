@@ -32,3 +32,13 @@ export function getSubjectAbbr(value: string): string {
   const SubjectAbbre:General = {...SubjectAbbr}
   return SubjectAbbre[obj[0]];
 }
+
+
+export function removeSubjectFromSchedule<T extends object>(schedule: T, subject: string): T {
+  return _.mapValues(schedule, (value) => {
+      if (_.isArray(value)) {
+          return _.without(value, subject);
+      }
+      return value;
+  }) as T;
+}

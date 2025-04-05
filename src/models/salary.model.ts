@@ -39,18 +39,20 @@ export interface ResponseData {
 
 export enum Hour {
   AIDataSc = "AI_DATA_SC",
-  Aias = "AIAS",
   Ethic = "ETHIC",
   GermanA2B2 = "GERMAN A2 - B2",
   Perception = "MCP",
+  Cognition = "MCP1",
+  Mathematical_Modelling_and_Simulation= "MMS",
   Seminar = "SEMINAR",
 }
 export enum SubjectAbbr {
   AI_DATA_SC = "AIDataSc",
-  AIAS = "Aias",
   ETHIC = "Ethic",
   "GERMAN A2 - B2" = "GermanA2 to B2",
   MCP = "Perception",
+  MCP1 = "Cognition",
+  MMS = "Mathematical_Modelling_and_Simulation",
   SEMINAR = "Seminar",
 }
 
