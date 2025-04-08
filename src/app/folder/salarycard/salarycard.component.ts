@@ -1,10 +1,12 @@
+
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BodySendRoutine, Datum, routinetimeSlots, Schedule, SubjectAbbr } from 'src/models/salary.model';
 import { AlertController, IonicSlides } from '@ionic/angular';
 import type { AlertInput } from '@ionic/core';
 import { register } from 'swiper/element/bundle';
 import { getSubjectAbbr, removeSubjectFromSchedule } from 'src/tools/tools';
-import { KeepAwake } from '@capacitor-community/keep-awake';
+import { keepAwake,allowDeviceSleep } from 'src/tools/plugins.tools';
 import { Capacitor } from '@capacitor/core';
 
 register();
@@ -78,7 +80,7 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
       this.running = true;
       if (Capacitor.getPlatform() === 'android') {
         // To keep the screen awake
-        KeepAwake.keepAwake()
+        keepAwake()
             .then(() => console.log('Screen will not dim or lock on Android'))
             .catch((error:any) => console.error('Error preventing sleep:', error));
 
@@ -123,7 +125,7 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
   async saveTime(time:string) {
     if(Capacitor.getPlatform() === 'android'){
        // To allow the screen to dim or lock again
-       KeepAwake.allowSleep()
+       allowDeviceSleep()
        .then(() => console.log('Screen can dim or lock again on Android'))
        .catch((error:any) => console.error('Error allowing sleep:', error));
     }
