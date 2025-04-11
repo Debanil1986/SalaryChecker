@@ -42,3 +42,13 @@ export function removeSubjectFromSchedule<T extends object>(schedule: T, subject
       return value;
   }) as T;
 }
+
+export function isDateToday(dateToCheck: Date): boolean {
+  const today = new Date();
+
+  // Set hours, minutes, seconds, and milliseconds to 0 for accurate comparison
+  today.setHours(0, 0, 0, 0);
+  dateToCheck.setHours(0, 0, 0, 0);
+
+  return dateToCheck.getTime() === today.getTime();
+}

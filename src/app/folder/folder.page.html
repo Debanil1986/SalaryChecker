@@ -16,7 +16,7 @@
 
   <ng-container *ngIf="folder === 'routine'">
     <div id="container">
-      <app-salarycard (progressRoutine)="sendProgress($event)" [schedule]="currentRoutine"></app-salarycard>
+      <app-salarycard (progressRoutine)="sendProgress($event)" [schedule]="currentRoutine" [progress_schedule]="ProgressData"></app-salarycard>
     </div>
   </ng-container>
 </ion-content>

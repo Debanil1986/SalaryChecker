@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { Schedule,Datum, ResponseData, BodySendRoutine } from 'src/models/salary.model';
+import { Schedule,Datum, ResponseData, BodySendRoutine, ProgressResponseData, ProgressSchedule } from 'src/models/salary.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,15 @@ export class SheetsService {
           the2Hour: day['2 hour'] || [],      // Convert "2 hour" to "twoHour"
           the1Hour: day['1 hour'] || [],      // Convert "1 hour" to "oneHour"
         }))
+      }))
+    );
+  }
+
+
+  getProgress(){
+    return this.http.get<ProgressSchedule>(`${this.url}/exec?sheet=sheet2`).pipe(
+      map((response:any) => ({
+        data: response.data.map((progress:ProgressResponseData) => [new Date(progress[0]),progress[1],progress[2]])
       }))
     );
   }

@@ -22,6 +22,9 @@ export interface General{
 export interface Schedule {
   data: Datum[];
 }
+export interface ProgressSchedule {
+  data: ProgressResponseData[];
+}
 
 export interface Datum {
   days:       string;
@@ -36,6 +39,7 @@ export interface ResponseData {
   "2 hour":    string[];
   "1 hour":    string[];
 }
+export type ProgressResponseData = [Date,number,string]
 
 export enum Hour {
   AIDataSc = "AI_DATA_SC",

@@ -1,11 +1,10 @@
 
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { BodySendRoutine, Datum, routinetimeSlots, Schedule, SubjectAbbr } from 'src/models/salary.model';
-import { AlertController, IonicSlides } from '@ionic/angular';
-import type { AlertInput } from '@ionic/core';
+import { BodySendRoutine, Datum, ProgressResponseData,  routinetimeSlots } from 'src/models/salary.model';
+import { AlertController } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
-import { getSubjectAbbr, removeSubjectFromSchedule } from 'src/tools/tools';
+import { getSubjectAbbr, isDateToday, removeSubjectFromSchedule } from 'src/tools/tools';
 import { keepAwake,allowDeviceSleep } from 'src/tools/plugins.tools';
 import { Capacitor } from '@capacitor/core';
 
@@ -19,6 +18,7 @@ register();
 })
 export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
   @Input() schedule: Datum = {} as Datum ;
+  @Input() progress_schedule: ProgressResponseData[] = [] ;
   @Output() progressRoutine: EventEmitter<any> = new EventEmitter<any>();
 
   timeSlots:routinetimeSlots[] = []
@@ -33,6 +33,8 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
 
   constructor( private alertCtrl: AlertController, private change:ChangeDetectorRef) {
   }
+
+
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
@@ -40,7 +42,6 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Schedule",this.schedule);
     this.timeSlots = Object.keys(this.schedule).filter(key => key !== "days") as routinetimeSlots[];
     const AllValues:any[] = [];
     const timeSlotsValues = [...Object.values(this.schedule)];
@@ -50,8 +51,10 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
       }
       AllValues.push(...timeSlotsValues[i])
     }
-    console.log('AllValues: ', AllValues)
     this.AllSubjects = [...new Set(AllValues)]
+
+    const dataToday = this.progress_schedule.filter(elem=> isDateToday(elem[0]));
+    console.log(dataToday);
 
   }
 
@@ -150,6 +153,8 @@ export class SalarycardComponent implements OnInit,OnChanges,OnDestroy  {
         }
       ]
     });
+
+
     await alert.present();
   }
 
